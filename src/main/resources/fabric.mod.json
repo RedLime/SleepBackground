@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "sleepbackground",
+  "version": "${version}",
+  "name": "sleepbackground",
+  "description": "",
+  "authors": [
+    "RedLime"
+  ],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.redlimerl.sleepbackground.SleepBackground"
+    ]
+  },
+  "mixins": [
+    "sleepbackground.mixins.json"
+  ]
+}
