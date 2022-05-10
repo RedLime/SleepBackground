@@ -39,7 +39,7 @@ public class SleepBackground implements ClientModInitializer {
             if (ldConfigFile.exists()) {
                 LOADING_FRAME_RATE = Integer.parseInt(FileUtils.readFileToString(ldConfigFile, StandardCharsets.UTF_8));
             } else {
-                FileUtils.writeStringToFile(ldConfigFile, String.valueOf(BG_FRAME_RATE), StandardCharsets.UTF_8);
+                FileUtils.writeStringToFile(ldConfigFile, String.valueOf(LOADING_FRAME_RATE), StandardCharsets.UTF_8);
             }
         } catch (Throwable e) {
             e.printStackTrace();
