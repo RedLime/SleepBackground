@@ -16,16 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
 
-    @Shadow @Nullable public ClientWorld world;
-
-    @Shadow @Nullable public Screen currentScreen;
-
     @Shadow private Profiler profiler;
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sound/SoundManager;updateListenerPosition(Lnet/minecraft/client/render/Camera;)V"), cancellable = true)
     public void onRender(CallbackInfo ci) {
-        if (!SleepBackground.shouldRenderInBackground()
-            && (this.world != null || this.currentScreen instanceof LevelLoadingScreen)) {
+        if (!SleepBackground.shouldRenderInBackground()) {
             this.profiler.pop();
             ci.cancel();
         }
