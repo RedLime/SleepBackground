@@ -8,6 +8,7 @@ import net.minecraft.client.util.Window;
 import net.minecraft.util.Util;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -16,8 +17,9 @@ import java.nio.charset.StandardCharsets;
 
 public class SleepBackground implements ClientModInitializer {
 
-    public static int BG_FRAME_RATE = 1;
-    public static int LOADING_FRAME_RATE = 30;
+    private static int BG_FRAME_RATE = 1;
+    private static int LOADING_FRAME_RATE = 30;
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public void onInitializeClient() {
@@ -47,9 +49,9 @@ public class SleepBackground implements ClientModInitializer {
             throw new IllegalArgumentException("The FPS limit should always be 1 or over");
         }
 
-        LogManager.getLogger().info("[SleepBackground] FPS limit in the background has been initalized.");
-        LogManager.getLogger().info("[SleepBackground] Normal : " + BG_FRAME_RATE);
-        LogManager.getLogger().info("[SleepBackground] Loading Screen : " + LOADING_FRAME_RATE);
+        LOGGER.info("FPS limit in the background has been initalized.");
+        LOGGER.info("Normal FPS : " + BG_FRAME_RATE);
+        LOGGER.info("Loading Screen FPS : " + LOADING_FRAME_RATE);
     }
 
     private static long lastRenderTime = 0;
