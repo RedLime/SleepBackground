@@ -41,6 +41,14 @@ public class SleepBackground implements ClientModInitializer {
         } catch (Throwable e) {
             e.printStackTrace();
         }
+
+        if (BG_FRAME_RATE < 1 || LOADING_FRAME_RATE < 1) {
+            throw new IllegalArgumentException("The FPS limit should always be 1 or over");
+        }
+
+        System.out.println("[SleepBackground] FPS limit in the background has been initalized.");
+        System.out.println("[SleepBackground] Normal : " + BG_FRAME_RATE);
+        System.out.println("[SleepBackground] Loading Screen : " + LOADING_FRAME_RATE);
     }
 
     private static long lastRenderTime = 0;
