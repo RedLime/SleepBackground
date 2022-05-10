@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screen.LevelLoadingScreen;
 import net.minecraft.client.util.Window;
 import net.minecraft.util.Util;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -46,9 +47,9 @@ public class SleepBackground implements ClientModInitializer {
             throw new IllegalArgumentException("The FPS limit should always be 1 or over");
         }
 
-        System.out.println("[SleepBackground] FPS limit in the background has been initalized.");
-        System.out.println("[SleepBackground] Normal : " + BG_FRAME_RATE);
-        System.out.println("[SleepBackground] Loading Screen : " + LOADING_FRAME_RATE);
+        LogManager.getLogger().info("[SleepBackground] FPS limit in the background has been initalized.");
+        LogManager.getLogger().info("[SleepBackground] Normal : " + BG_FRAME_RATE);
+        LogManager.getLogger().info("[SleepBackground] Loading Screen : " + LOADING_FRAME_RATE);
     }
 
     private static long lastRenderTime = 0;
