@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.LevelLoadingScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.util.profiler.Profiler;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,10 +20,13 @@ public abstract class MixinMinecraftClient {
 
     @Shadow @Nullable public Screen currentScreen;
 
+    @Shadow private Profiler profiler;
+
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sound/SoundManager;updateListenerPosition(Lnet/minecraft/client/render/Camera;)V"), cancellable = true)
     public void onRender(CallbackInfo ci) {
         if (!SleepBackground.shouldRenderInBackground()
             && (this.world != null || this.currentScreen instanceof LevelLoadingScreen)) {
+            this.profiler.pop();
             ci.cancel();
         }
     }
