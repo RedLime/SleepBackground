@@ -14,6 +14,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.locks.LockSupport;
 
 public class SleepBackground implements ClientModInitializer {
 
@@ -64,11 +65,21 @@ public class SleepBackground implements ClientModInitializer {
 
         long frameTime = 1000 / targetFPS;
 
-        if (timeSinceLastRender < frameTime)
+        if (timeSinceLastRender < frameTime) {
+            idle(frameTime);
             return false;
+        }
 
         lastRenderTime = currentTime;
         return true;
+    }
+
+    /**
+     * From mangohand's idle method
+     */
+    private static void idle(long waitMillis) {
+        waitMillis = Math.min(waitMillis, 30L);
+        LockSupport.parkNanos("waiting to render", waitMillis * 1000000L);
     }
 
     @Nullable
