@@ -25,7 +25,7 @@ public class ConfigValues {
             };
 
     public static final RenderTimesConfigValue WORLD_PREVIEW_RENDER_TIMES =
-            new RenderTimesConfigValue("world_preview", 5, "config for world preview, every time (loading_screen) is rendered (render_times) times, will be render a preview. ex) if (loading_screen.fps_limit) is 30 and this value is 2, preview fps will be 15(30 ÷ 2).");
+            new RenderTimesConfigValue("world_preview", 5, "config for world preview, every time (loading_screen) is rendered (render_times) times, will be render a preview. ex) if (loading_screen.fps_limit) is 30 and this value is 2, preview fps will be 15 (as 30 / 2).");
 
     public static final FrameTickConfigValue WORLD_INITIAL_FRAME_RATE =
             new FrameTickConfigValue("world_setup", 10, 30, "same with (background) config but for (max_ticks) ticks after the joined the world.");

@@ -16,5 +16,8 @@
   },
   "mixins": [
     "sleepbackground.mixins.json"
-  ]
+  ],
+  "breaks": {
+    "dynamicmenufps": "*"
+  }
 }
