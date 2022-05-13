@@ -26,9 +26,8 @@ public abstract class MixinMinecraftClient {
             GLFW.glfwPollEvents();
             this.profiler.pop();
             ci.cancel();
-        } else {
-            SleepBackground.checkRenderWorldPreview();
         }
+        SleepBackground.checkRenderWorldPreview();
     }
 
     @Inject(method = "tick", at = @At("RETURN"))

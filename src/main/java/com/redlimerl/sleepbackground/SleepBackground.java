@@ -89,11 +89,12 @@ public class SleepBackground implements ClientModInitializer {
     public static void checkRenderWorldPreview() {
         if (!HAS_WORLD_PREVIEW || !WorldPreview.inPreview) return;
 
-        if (++LOADING_SCREEN_RENDER_COUNT < ConfigValues.WORLD_PREVIEW_RENDER_TIMES.getRenderTimes()) {
-            WorldPreview.freezePreview = true;
-        } else {
+        if (MinecraftClient.getInstance().isWindowFocused() || isHoveredWindow()
+                || ++LOADING_SCREEN_RENDER_COUNT >= ConfigValues.WORLD_PREVIEW_RENDER_TIMES.getRenderTimes()) {
             LOADING_SCREEN_RENDER_COUNT = 0;
             WorldPreview.freezePreview = false;
+        } else {
+            WorldPreview.freezePreview = true;
         }
     }
 }
