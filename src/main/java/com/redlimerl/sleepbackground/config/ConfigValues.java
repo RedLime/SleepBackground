@@ -13,7 +13,7 @@ public class ConfigValues {
             new FrameLimitConfigValue("background", 1, "It works when instance is in the background after joined the world.");
 
     public static final FrameLimitConfigValue LOADING_SCREEN_FRAME_RATE =
-            new FrameLimitConfigValue("loading_screen", 30, "It works when instance is in the world loading screen. maximum (fps_limit) is 15.") {
+            new FrameLimitConfigValue("loading_screen", 30, "It works when instance is in the world loading screen. minimum (fps_limit) is 15.") {
                 @Override
                 protected void loadToInit(JsonObject configObject) {
                     super.loadToInit(configObject);
