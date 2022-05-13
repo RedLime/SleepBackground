@@ -3,10 +3,11 @@ plugins {
     id 'maven-publish'
 }
 
-version = project.mod_version + "+1.14.x+1.19.x"
+version = project.mod_version
 group = project.maven_group
 
 repositories {
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -14,6 +15,7 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    compileOnlyApi files('libs/worldpreview-2.3.2+1.16.1.jar')
 
 }
 
@@ -46,6 +48,7 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
+    project.version = project.version + "+1.14.x+1.19.x";
 }
 
 // configure the maven publication

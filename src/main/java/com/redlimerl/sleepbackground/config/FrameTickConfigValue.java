@@ -6,8 +6,8 @@ public class FrameTickConfigValue extends FrameLimitConfigValue {
 
     private int maxTicks;
 
-    public FrameTickConfigValue(String keyName, int defaultFrameLimit, int defaultMaxTick) {
-        super(keyName, defaultFrameLimit);
+    public FrameTickConfigValue(String keyName, int defaultFrameLimit, int defaultMaxTick, String comment) {
+        super(keyName, defaultFrameLimit, comment);
         this.maxTicks = defaultMaxTick;
     }
 
@@ -27,11 +27,5 @@ public class FrameTickConfigValue extends FrameLimitConfigValue {
 
     public int getMaxTicks() {
         return this.isEnable() ? this.maxTicks : 0;
-    }
-
-    @Override
-    public FrameTickConfigValue register() {
-        super.register();
-        return this;
     }
 }

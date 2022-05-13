@@ -1,7 +1,9 @@
 package com.redlimerl.sleepbackground;
 
 import com.redlimerl.sleepbackground.config.ConfigValues;
+import me.voidxwalker.worldpreview.WorldPreview;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.LevelLoadingScreen;
 import net.minecraft.client.util.Window;
@@ -18,10 +20,16 @@ public class SleepBackground implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static int CLIENT_WORLD_TICK_COUNT = 0;
+    private static boolean HAS_WORLD_PREVIEW = false;
+    private static int LOADING_SCREEN_RENDER_COUNT = 0;
 
     @Override
     public void onInitializeClient() {
         SleepBackgroundConfig.init();
+
+        if (FabricLoader.getInstance().getModContainer("worldpreview").isPresent()) {
+            HAS_WORLD_PREVIEW = true;
+        }
     }
 
     private static long lastRenderTime = 0;
@@ -76,5 +84,16 @@ public class SleepBackground implements ClientModInitializer {
     private static boolean isHoveredWindow() {
         Window window = MinecraftClient.getInstance().getWindow();
         return GLFW.glfwGetWindowAttrib(window.getHandle(), 131083) != 0;
+    }
+
+    public static void checkRenderWorldPreview() {
+        if (!HAS_WORLD_PREVIEW || !WorldPreview.inPreview) return;
+
+        if (++LOADING_SCREEN_RENDER_COUNT < ConfigValues.WORLD_PREVIEW_RENDER_TIMES.getRenderTimes()) {
+            WorldPreview.freezePreview = true;
+        } else {
+            LOADING_SCREEN_RENDER_COUNT = 0;
+            WorldPreview.freezePreview = false;
+        }
     }
 }

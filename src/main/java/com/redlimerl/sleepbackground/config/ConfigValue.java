@@ -5,14 +5,20 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class ConfigValue {
     private final String keyName;
+    private final String comment;
     private boolean enable = true;
 
-    public ConfigValue(String keyName) {
+    public ConfigValue(String keyName, String comment) {
         this.keyName = keyName;
+        this.comment = comment;
     }
 
     public final String getKeyName() {
         return keyName;
+    }
+
+    public final String getComment() {
+        return comment;
     }
 
     public final boolean isEnable() {
@@ -49,6 +55,7 @@ public abstract class ConfigValue {
     public final void writeToJsonObject(JsonObject jsonObject) {
         JsonObject configObject = new JsonObject();
 
+        configObject.addProperty("_description", this.comment);
         configObject.addProperty("enable", this.enable);
         this.writeToJson(configObject);
 
@@ -62,10 +69,5 @@ public abstract class ConfigValue {
         return "ConfigValue{" +
                 "keyName='" + keyName + '\'' +
                 '}';
-    }
-
-    public ConfigValue register() {
-        ConfigValues.ALL_CONFIGS.add(this);
-        return null;
     }
 }

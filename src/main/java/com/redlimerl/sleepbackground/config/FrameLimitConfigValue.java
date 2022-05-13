@@ -7,8 +7,8 @@ public class FrameLimitConfigValue extends ConfigValue {
 
     private int frameLimit;
 
-    public FrameLimitConfigValue(String keyName, int defaultLimit) {
-        super(keyName);
+    public FrameLimitConfigValue(String keyName, int defaultLimit, String comment) {
+        super(keyName, comment);
         this.frameLimit = defaultLimit;
     }
 
@@ -28,11 +28,5 @@ public class FrameLimitConfigValue extends ConfigValue {
     @Nullable
     public Integer getFrameLimit() {
         return this.isEnable() ? frameLimit : null;
-    }
-
-    @Override
-    public FrameLimitConfigValue register() {
-        super.register();
-        return this;
     }
 }

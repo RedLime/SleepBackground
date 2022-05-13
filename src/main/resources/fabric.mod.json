@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "sleepbackground",
   "version": "${version}",
-  "name": "sleepbackground",
-  "description": "",
+  "name": "SleepBackground",
+  "description": "My instances are looks want to sleep",
   "authors": [
     "RedLime"
   ],

@@ -20,12 +20,14 @@ public abstract class MixinMinecraftClient {
 
     @Shadow @Nullable public ClientWorld world;
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sound/SoundManager;updateListenerPosition(Lnet/minecraft/client/render/Camera;)V"), cancellable = true)
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sound/SoundManager;updateListenerPosition(Lnet/minecraft/client/render/Camera;)V", shift = At.Shift.AFTER), cancellable = true)
     public void onRender(CallbackInfo ci) {
         if (!SleepBackground.shouldRenderInBackground()) {
             GLFW.glfwPollEvents();
             this.profiler.pop();
             ci.cancel();
+        } else {
+            SleepBackground.checkRenderWorldPreview();
         }
     }
 
