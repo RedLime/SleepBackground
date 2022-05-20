@@ -4,6 +4,7 @@ import com.redlimerl.sleepbackground.SleepBackground;
 import com.redlimerl.sleepbackground.config.ConfigValues;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.util.MetricsData;
 import net.minecraft.util.profiler.Profiler;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
@@ -19,6 +20,10 @@ public abstract class MixinMinecraftClient {
     @Shadow @Nullable public ClientWorld world;
 
     @Shadow public abstract Profiler getProfiler();
+
+    @Shadow private long lastMetricsSampleTime;
+
+    @Shadow public abstract MetricsData getMetricsData();
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sound/SoundManager;updateListenerPosition(Lnet/minecraft/client/render/Camera;)V", shift = At.Shift.AFTER), cancellable = true)
     public void onRender(CallbackInfo ci) {
@@ -38,6 +43,9 @@ public abstract class MixinMinecraftClient {
     }
 
     private void skipAllProfiler() {
+        long m = System.nanoTime();
+        this.getMetricsData().pushSample(m - this.lastMetricsSampleTime);
+        this.lastMetricsSampleTime = m;
     }
 
 }
