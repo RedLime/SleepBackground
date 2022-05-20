@@ -6,11 +6,17 @@ import org.jetbrains.annotations.Nullable;
 public abstract class ConfigValue {
     private final String keyName;
     private final String comment;
+    private final boolean defaultEnable;
     private boolean enable = true;
 
-    public ConfigValue(String keyName, String comment) {
+    public ConfigValue(String keyName, String comment, boolean defaultEnable) {
         this.keyName = keyName;
         this.comment = comment;
+        this.defaultEnable = defaultEnable;
+    }
+
+    public ConfigValue(String keyName, String comment) {
+        this(keyName, comment, true);
     }
 
     public final String getKeyName() {
@@ -36,7 +42,7 @@ public abstract class ConfigValue {
     public final void load(JsonObject jsonObject) {
         JsonObject configObject = this.getJsonObjectFromConfig(jsonObject);
         if (configObject == null) {
-            this.enable = false;
+            this.enable = this.defaultEnable;
             return;
         }
 

@@ -22,6 +22,8 @@ public class SleepBackground implements ClientModInitializer {
 
     public static int CLIENT_WORLD_TICK_COUNT = 0;
     private static boolean HAS_WORLD_PREVIEW = false;
+    private static boolean CHECK_FREEZE_PREVIEW = false;
+    private static boolean LOCK_FREEZE_PREVIEW = false;
     private static int LOADING_SCREEN_RENDER_COUNT = 0;
 
     @Override
@@ -90,11 +92,19 @@ public class SleepBackground implements ClientModInitializer {
     public static void checkRenderWorldPreview() {
         if (!HAS_WORLD_PREVIEW || !WorldPreview.inPreview) return;
 
-        if (MinecraftClient.getInstance().isWindowFocused() || isHoveredWindow()
+        boolean windowFocused = MinecraftClient.getInstance().isWindowFocused(), windowHovered = isHoveredWindow();
+        if (windowFocused || windowHovered
                 || ++LOADING_SCREEN_RENDER_COUNT >= ConfigValues.WORLD_PREVIEW_RENDER_TIMES.getRenderTimes()) {
             LOADING_SCREEN_RENDER_COUNT = 0;
-            WorldPreview.freezePreview = false;
+            if (windowFocused || windowHovered) {
+                if (CHECK_FREEZE_PREVIEW) {
+                    LOCK_FREEZE_PREVIEW = WorldPreview.freezePreview;
+                }
+                CHECK_FREEZE_PREVIEW = true;
+            }
+            WorldPreview.freezePreview = LOCK_FREEZE_PREVIEW;
         } else {
+            CHECK_FREEZE_PREVIEW = false;
             WorldPreview.freezePreview = true;
         }
     }
