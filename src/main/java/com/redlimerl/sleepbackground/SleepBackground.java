@@ -19,6 +19,7 @@ public class SleepBackground implements ClientModInitializer {
     public static int CLIENT_WORLD_TICK_COUNT = 0;
     private static int LOADING_SCREEN_RENDER_COUNT = 0;
     private static long lastRenderTime = 0;
+    private static long lastPollTime = 0;
     public static boolean isInLoadingScreen = false; // maybe not necessary, but it's the safe move given that there is no LoadingScreen class.
 
     @Override
@@ -43,6 +44,25 @@ public class SleepBackground implements ClientModInitializer {
         lastRenderTime = currentTime;
         return true;
     }
+
+    public static boolean shouldPollMouse() {
+        long currentTime = System.currentTimeMillis();
+        long timeSinceLastPoll = currentTime - lastPollTime;
+
+        @Nullable Integer targetPollingHZ = getBackgroundFPS();
+        if (targetPollingHZ == null) return true;
+        targetPollingHZ = Integer.max(targetPollingHZ, 30);
+        long pollTime = 1000 / targetPollingHZ;
+
+        if (timeSinceLastPoll < pollTime) {
+            idle(pollTime);
+            return false;
+        }
+
+        lastPollTime = currentTime;
+        return true;
+    }
+
 
     /**
      * For decrease CPU usage
