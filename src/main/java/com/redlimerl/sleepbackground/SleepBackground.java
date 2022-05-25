@@ -4,7 +4,6 @@ import com.redlimerl.sleepbackground.config.ConfigValues;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.util.Window;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +19,7 @@ public class SleepBackground implements ClientModInitializer {
     public static int CLIENT_WORLD_TICK_COUNT = 0;
     private static int LOADING_SCREEN_RENDER_COUNT = 0;
     private static long lastRenderTime = 0;
+    public static boolean isInLoadingScreen = false; // maybe not necessary, but it's the safe move given that there is no LoadingScreen class.
 
     @Override
     public void onInitializeClient() {
@@ -65,7 +65,7 @@ public class SleepBackground implements ClientModInitializer {
                 return ConfigValues.BACKGROUND_FRAME_RATE.getFrameLimit();
             }
 
-            else if (client.loadingScreenRenderer != null && client.currentScreen instanceof TitleScreen) // will this return true if we're in the actual titlescreen?
+            else if (client.loadingScreenRenderer != null && client.currentScreen instanceof TitleScreen)
                 return ConfigValues.LOADING_SCREEN_FRAME_RATE.getFrameLimit();
 
             return null;
