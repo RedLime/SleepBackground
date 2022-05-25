@@ -48,17 +48,11 @@ public class SleepBackground implements ClientModInitializer {
     public static boolean shouldPollMouse() {
         long currentTime = System.currentTimeMillis();
         long timeSinceLastPoll = currentTime - lastPollTime;
-
-        @Nullable Integer targetPollingHZ = getBackgroundFPS();
-        if (targetPollingHZ == null) return true;
-        targetPollingHZ = Integer.max(targetPollingHZ, 30);
-        long pollTime = 1000 / targetPollingHZ;
-
+        long pollTime = 1000 / 30;
         if (timeSinceLastPoll < pollTime) {
             idle(pollTime);
             return false;
         }
-
         lastPollTime = currentTime;
         return true;
     }
