@@ -1,5 +1,6 @@
 package com.redlimerl.sleepbackground;
 
+import com.redlimerl.sleepbackground.config.ConfigValue;
 import com.redlimerl.sleepbackground.config.ConfigValues;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
@@ -17,10 +18,8 @@ public class SleepBackground implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static int CLIENT_WORLD_TICK_COUNT = 0;
-    private static int LOADING_SCREEN_RENDER_COUNT = 0;
     private static long lastRenderTime = 0;
     private static long lastPollTime = 0;
-    public static boolean isInLoadingScreen = false; // maybe not necessary, but it's the safe move given that there is no LoadingScreen class.
 
     @Override
     public void onInitializeClient() {
@@ -48,7 +47,7 @@ public class SleepBackground implements ClientModInitializer {
     public static boolean shouldPollMouse() {
         long currentTime = System.currentTimeMillis();
         long timeSinceLastPoll = currentTime - lastPollTime;
-        long pollTime = 1000 / 30;
+        long pollTime = 1000 / ConfigValues.DISPLAY_UPDATE_RATE.getFrameLimit();
         if (timeSinceLastPoll < pollTime) {
             return false;
         }
@@ -77,9 +76,6 @@ public class SleepBackground implements ClientModInitializer {
 
                 return ConfigValues.BACKGROUND_FRAME_RATE.getFrameLimit();
             }
-
-            else if (client.loadingScreenRenderer != null && client.currentScreen instanceof TitleScreen)
-                return ConfigValues.LOADING_SCREEN_FRAME_RATE.getFrameLimit();
 
             return null;
         }
