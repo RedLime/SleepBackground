@@ -50,7 +50,6 @@ public class SleepBackground implements ClientModInitializer {
         long timeSinceLastPoll = currentTime - lastPollTime;
         long pollTime = 1000 / 30;
         if (timeSinceLastPoll < pollTime) {
-            idle(pollTime);
             return false;
         }
         lastPollTime = currentTime;
