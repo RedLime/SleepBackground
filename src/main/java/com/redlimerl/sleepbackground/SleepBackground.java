@@ -27,10 +27,10 @@ public class SleepBackground implements ClientModInitializer {
     }
 
     public static boolean shouldRenderInBackground() {
-        long currentTime = System.nanoTime();
+        long currentTime = System.currentTimeMillis();
         long timeSinceLastRender = currentTime - lastRenderTime;
 
-        Integer targetFPS = getBackgroundFPS();
+        @Nullable Integer targetFPS = getBackgroundFPS();
         if (targetFPS == null) return true;
 
         long frameTime = 1000 / targetFPS;

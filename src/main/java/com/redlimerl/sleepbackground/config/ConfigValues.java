@@ -9,15 +9,6 @@ public class ConfigValues {
 
     public static final HashSet<ConfigValue> ALL_CONFIGS = Sets.newHashSet();
 
-    public static final ConfigValue USE_LEGACY_METHOD =
-            new ConfigValue("legacy_mode", "It will be uses the method of Dynamic Menu FPS. Performance will be degraded.", false) {
-                @Override
-                protected void loadToInit(JsonObject configObject) {}
-
-                @Override
-                protected void writeToJson(JsonObject configObject) {}
-            };
-
     public static final FrameLimitConfigValue BACKGROUND_FRAME_RATE =
             new FrameLimitConfigValue("background", 1, "It works when instance is in the background after joined the world.");
 
@@ -37,7 +28,6 @@ public class ConfigValues {
             new FrameTickConfigValue("world_setup", 10, 30, "same with (background) config but for (max_ticks) ticks after the joined the world.");
 
     static {
-        ALL_CONFIGS.add(USE_LEGACY_METHOD);
         ALL_CONFIGS.add(BACKGROUND_FRAME_RATE);
         ALL_CONFIGS.add(LOADING_SCREEN_FRAME_RATE);
         ALL_CONFIGS.add(WORLD_INITIAL_FRAME_RATE);
