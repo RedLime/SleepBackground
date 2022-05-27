@@ -20,6 +20,7 @@ public class SleepBackground implements ClientModInitializer {
     public static int CLIENT_WORLD_TICK_COUNT = 0;
     private static long lastRenderTime = 0;
     private static long lastPollTime = 0;
+    public static boolean shouldRenderInBackground = true;
 
     @Override
     public void onInitializeClient() {
@@ -31,17 +32,22 @@ public class SleepBackground implements ClientModInitializer {
         long timeSinceLastRender = currentTime - lastRenderTime;
 
         @Nullable Integer targetFPS = getBackgroundFPS();
-        if (targetFPS == null) return true;
+        if (targetFPS == null) {
+            shouldRenderInBackground = true;
+            return shouldRenderInBackground;
+        }
 
         long frameTime = 1000 / targetFPS;
 
         if (timeSinceLastRender < frameTime) {
             idle(frameTime);
-            return false;
+            shouldRenderInBackground = false;
+            return shouldRenderInBackground;
         }
 
         lastRenderTime = currentTime;
-        return true;
+        shouldRenderInBackground = true;
+        return shouldRenderInBackground;
     }
 
     public static boolean shouldPollMouse() {

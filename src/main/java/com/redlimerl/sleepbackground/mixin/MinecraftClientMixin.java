@@ -24,7 +24,7 @@ public class MinecraftClientMixin {
 
     @Inject(method = "updateDisplay", at = @At("HEAD"), cancellable = true)
     private void update30HZ(CallbackInfo ci) {
-        if (!SleepBackground.shouldRenderInBackground() && !SleepBackground.shouldPollMouse()) {
+        if (!SleepBackground.shouldRenderInBackground && !SleepBackground.shouldPollMouse()) {
             ci.cancel();
         }
     }
