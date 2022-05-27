@@ -22,7 +22,7 @@ public class MinecraftClientMixin {
                 Math.min(SleepBackground.CLIENT_WORLD_TICK_COUNT + 1, ConfigValues.WORLD_INITIAL_FRAME_RATE.getMaxTicks());
     }
 
-    @Inject(method = "updateDisplay", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "method_6648", at = @At("HEAD"), cancellable = true)
     private void update30HZ(CallbackInfo ci) {
         if (!SleepBackground.shouldRenderInBackground && !SleepBackground.shouldPollMouse()) {
             ci.cancel();
