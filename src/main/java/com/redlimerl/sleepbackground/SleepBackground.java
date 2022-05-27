@@ -1,18 +1,15 @@
 package com.redlimerl.sleepbackground;
 
+import com.redlimerl.sleepbackground.config.ConfigValue;
 import com.redlimerl.sleepbackground.config.ConfigValues;
-import com.redlimerl.sleepbackground.mixin.accessor.AccessorMinecraftClient;
-import me.voidxwalker.worldpreview.WorldPreview;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.LevelLoadingScreen;
-import net.minecraft.client.util.Window;
-import net.minecraft.util.Util;
+import net.minecraft.client.gui.screen.TitleScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 import java.util.concurrent.locks.LockSupport;
 
@@ -21,38 +18,49 @@ public class SleepBackground implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static int CLIENT_WORLD_TICK_COUNT = 0;
-    private static boolean HAS_WORLD_PREVIEW = false;
-    private static boolean CHECK_FREEZE_PREVIEW = false;
-    private static boolean LOCK_FREEZE_PREVIEW = false;
-    private static int LOADING_SCREEN_RENDER_COUNT = 0;
+    private static long lastRenderTime = 0;
+    private static long lastPollTime = 0;
+    public static boolean shouldRenderInBackground = true;
 
     @Override
     public void onInitializeClient() {
         SleepBackgroundConfig.init();
-
-        if (FabricLoader.getInstance().getModContainer("worldpreview").isPresent()) {
-            HAS_WORLD_PREVIEW = true;
-        }
     }
 
-    private static long lastRenderTime = 0;
     public static boolean shouldRenderInBackground() {
-        long currentTime = Util.getMeasuringTimeMs();
+        long currentTime = System.currentTimeMillis();
         long timeSinceLastRender = currentTime - lastRenderTime;
 
-        Integer targetFPS = getBackgroundFPS();
-        if (targetFPS == null) return true;
+        @Nullable Integer targetFPS = getBackgroundFPS();
+        if (targetFPS == null) {
+            shouldRenderInBackground = true;
+            return shouldRenderInBackground;
+        }
 
         long frameTime = 1000 / targetFPS;
 
         if (timeSinceLastRender < frameTime) {
             idle(frameTime);
-            return false;
+            shouldRenderInBackground = false;
+            return shouldRenderInBackground;
         }
 
         lastRenderTime = currentTime;
+        shouldRenderInBackground = true;
+        return shouldRenderInBackground;
+    }
+
+    public static boolean shouldPollMouse() {
+        long currentTime = System.currentTimeMillis();
+        long timeSinceLastPoll = currentTime - lastPollTime;
+        long pollTime = 1000 / ConfigValues.DISPLAY_UPDATE_RATE.getFrameLimit();
+        if (timeSinceLastPoll < pollTime) {
+            return false;
+        }
+        lastPollTime = currentTime;
         return true;
     }
+
 
     /**
      * For decrease CPU usage
@@ -67,8 +75,7 @@ public class SleepBackground implements ClientModInitializer {
     private static Integer getBackgroundFPS() {
         MinecraftClient client = MinecraftClient.getInstance();
 
-        if (!client.isWindowFocused() && !isHoveredWindow()) {
-
+        if (!Display.isActive() && !Mouse.isInsideWindow()) {
             if (client.world != null) {
                 if (ConfigValues.WORLD_INITIAL_FRAME_RATE.getMaxTicks() > CLIENT_WORLD_TICK_COUNT)
                     return ConfigValues.WORLD_INITIAL_FRAME_RATE.getFrameLimit();
@@ -76,36 +83,8 @@ public class SleepBackground implements ClientModInitializer {
                 return ConfigValues.BACKGROUND_FRAME_RATE.getFrameLimit();
             }
 
-            else if (client.currentScreen instanceof LevelLoadingScreen)
-                return ConfigValues.LOADING_SCREEN_FRAME_RATE.getFrameLimit();
-
             return null;
         }
         return null;
-    }
-
-    private static boolean isHoveredWindow() {
-        Window window = ((AccessorMinecraftClient) MinecraftClient.getInstance()).getWindowForAccess();
-        return GLFW.glfwGetWindowAttrib(window.getHandle(), 131083) != 0;
-    }
-
-    public static void checkRenderWorldPreview() {
-        if (!HAS_WORLD_PREVIEW || !WorldPreview.inPreview) return;
-
-        boolean windowFocused = MinecraftClient.getInstance().isWindowFocused(), windowHovered = isHoveredWindow();
-        if (windowFocused || windowHovered
-                || ++LOADING_SCREEN_RENDER_COUNT >= ConfigValues.WORLD_PREVIEW_RENDER_TIMES.getRenderTimes()) {
-            LOADING_SCREEN_RENDER_COUNT = 0;
-            if (windowFocused || windowHovered) {
-                if (CHECK_FREEZE_PREVIEW) {
-                    LOCK_FREEZE_PREVIEW = WorldPreview.freezePreview;
-                }
-                CHECK_FREEZE_PREVIEW = true;
-            }
-            WorldPreview.freezePreview = LOCK_FREEZE_PREVIEW;
-        } else {
-            CHECK_FREEZE_PREVIEW = false;
-            WorldPreview.freezePreview = true;
-        }
     }
 }
