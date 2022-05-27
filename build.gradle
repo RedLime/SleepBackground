@@ -32,8 +32,8 @@ loom {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:1.8"
-    mappings "net.fabricmc:yarn:1.8+build.202205261706:v2"
+    minecraft "com.mojang:minecraft:1.8.9"
+    mappings "net.fabricmc:yarn:1.8.9+build.202205261706:v2"
     modImplementation "net.fabricmc:fabric-loader:0.12.12"
 
 
