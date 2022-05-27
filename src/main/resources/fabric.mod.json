@@ -5,7 +5,8 @@
   "name": "SleepBackground",
   "description": "My instances are looks want to sleep",
   "authors": [
-    "RedLime"
+    "Redlime",
+    "Pixfumy"
   ],
   "license": "MIT",
   "environment": "client",
@@ -17,7 +18,14 @@
   "mixins": [
     "sleepbackground.mixins.json"
   ],
+  "depends": {
+    "fabricloader": ">=0.12.12",
+    "minecraft": "1.8"
+  },
+  "suggests": {
+    "another-mod": "*"
+  },
   "breaks": {
-    "dynamicmenufps": "*"
+    "mangodfps": "*"
   }
 }
