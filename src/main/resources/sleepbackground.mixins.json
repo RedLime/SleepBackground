@@ -7,9 +7,11 @@
     "defaultRequire": 1
   },
   "client": [
+    "MixinFramebuffer",
     "MixinGameRenderer",
     "MixinMinecraftClient",
     "MixinThreadExecutor",
+    "MixinWindow",
     "accessor.AccessorMinecraftClient"
   ]
 }

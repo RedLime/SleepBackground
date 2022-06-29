@@ -24,6 +24,7 @@ public class SleepBackground implements ClientModInitializer {
     private static boolean HAS_WORLD_PREVIEW = false;
     private static boolean CHECK_FREEZE_PREVIEW = false;
     private static boolean LOCK_FREEZE_PREVIEW = false;
+    public static boolean LATEST_LOCK_FRAME = false;
     private static int LOADING_SCREEN_RENDER_COUNT = 0;
 
     @Override
