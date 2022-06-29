@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Window.class)
 public class MixinWindow {
 
-    @Inject(method = "swapBuffers", cancellable = true, at = @At("HEAD"))
+    @Inject(method = "setFullscreen", cancellable = true, at = @At("HEAD"))
     public void onSwap(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) {
             ci.cancel();
