@@ -21,7 +21,7 @@ public abstract class MixinMinecraftClient {
         SleepBackground.LATEST_LOCK_FRAME = !SleepBackground.shouldRenderInBackground();
     }
 
-    @Inject(method = "updateDisplay", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "method_6648", at = @At("HEAD"), cancellable = true)
     public void onUpdate(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
