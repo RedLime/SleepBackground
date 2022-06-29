@@ -1,18 +1,16 @@
 package com.redlimerl.sleepbackground;
 
 import com.redlimerl.sleepbackground.config.ConfigValues;
-import com.redlimerl.sleepbackground.mixin.accessor.AccessorMinecraftClient;
 import me.voidxwalker.worldpreview.WorldPreview;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.class_4117;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ProgressScreen;
-import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 import java.util.concurrent.locks.LockSupport;
 
@@ -38,7 +36,7 @@ public class SleepBackground implements ClientModInitializer {
 
     private static long lastRenderTime = 0;
     public static boolean shouldRenderInBackground() {
-        long currentTime = Util.method_20227();
+        long currentTime = System.currentTimeMillis();
         long timeSinceLastRender = currentTime - lastRenderTime;
 
         Integer targetFPS = getBackgroundFPS();
@@ -68,7 +66,7 @@ public class SleepBackground implements ClientModInitializer {
     private static Integer getBackgroundFPS() {
         MinecraftClient client = MinecraftClient.getInstance();
 
-        if (!client.isWindowFocused() && !isHoveredWindow()) {
+        if (!Display.isActive() && !isHoveredWindow()) {
 
             if (client.world != null) {
                 if (ConfigValues.WORLD_INITIAL_FRAME_RATE.getMaxTicks() > CLIENT_WORLD_TICK_COUNT)
@@ -86,14 +84,13 @@ public class SleepBackground implements ClientModInitializer {
     }
 
     private static boolean isHoveredWindow() {
-        class_4117 window = ((AccessorMinecraftClient) MinecraftClient.getInstance()).getWindowForAccess();
-        return GLFW.glfwGetWindowAttrib(window.method_18315(), 131083) != 0;
+        return Mouse.isInsideWindow();
     }
 
     public static void checkRenderWorldPreview() {
         if (!HAS_WORLD_PREVIEW || !WorldPreview.inPreview) return;
 
-        boolean windowFocused = MinecraftClient.getInstance().isWindowFocused(), windowHovered = isHoveredWindow();
+        boolean windowFocused = Display.isActive(), windowHovered = isHoveredWindow();
         if (windowFocused || windowHovered
                 || ++LOADING_SCREEN_RENDER_COUNT >= ConfigValues.WORLD_PREVIEW_RENDER_TIMES.getRenderTimes()) {
             LOADING_SCREEN_RENDER_COUNT = 0;

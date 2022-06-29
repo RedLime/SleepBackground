@@ -9,8 +9,6 @@
   "client": [
     "MixinFramebuffer",
     "MixinGameRenderer",
-    "MixinMinecraftClient",
-    "MixinWindow",
-    "accessor.AccessorMinecraftClient"
+    "MixinMinecraftClient"
   ]
 }
