@@ -12,7 +12,6 @@ public class MixinGameRenderer {
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void onRender(float tickDelta, long startTime, boolean tick, CallbackInfo callbackInfo) {
-        SleepBackground.LATEST_LOCK_FRAME = !SleepBackground.shouldRenderInBackground();
         if (SleepBackground.LATEST_LOCK_FRAME) {
             callbackInfo.cancel();
         }

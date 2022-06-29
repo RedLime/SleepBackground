@@ -16,6 +16,11 @@ public abstract class MixinMinecraftClient {
 
     @Shadow @Nullable public ClientWorld world;
 
+    @Inject(method = "render", at = @At("HEAD"))
+    public void onRender(CallbackInfo ci) {
+        SleepBackground.LATEST_LOCK_FRAME = !SleepBackground.shouldRenderInBackground();
+    }
+
     @Inject(method = "tick", at = @At("RETURN"))
     public void onTick(CallbackInfo ci) {
         SleepBackground.CLIENT_WORLD_TICK_COUNT = this.world == null ? 0 :
