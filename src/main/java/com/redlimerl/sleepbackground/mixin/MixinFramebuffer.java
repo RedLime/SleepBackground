@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Framebuffer.class)
 public class MixinFramebuffer {
 
-    @Inject(method = "beginWrite", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "bind", at = @At("HEAD"), cancellable = true)
     private void onBegin(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) {
             ci.cancel();

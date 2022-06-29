@@ -5,9 +5,9 @@ import com.redlimerl.sleepbackground.mixin.accessor.AccessorMinecraftClient;
 import me.voidxwalker.worldpreview.WorldPreview;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.class_4117;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.LevelLoadingScreen;
-import net.minecraft.client.util.Window;
+import net.minecraft.client.gui.screen.ProgressScreen;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +38,7 @@ public class SleepBackground implements ClientModInitializer {
 
     private static long lastRenderTime = 0;
     public static boolean shouldRenderInBackground() {
-        long currentTime = Util.getMeasuringTimeMs();
+        long currentTime = Util.method_20227();
         long timeSinceLastRender = currentTime - lastRenderTime;
 
         Integer targetFPS = getBackgroundFPS();
@@ -77,7 +77,7 @@ public class SleepBackground implements ClientModInitializer {
                 return ConfigValues.BACKGROUND_FRAME_RATE.getFrameLimit();
             }
 
-            else if (client.currentScreen instanceof LevelLoadingScreen)
+            else if (client.currentScreen instanceof ProgressScreen)
                 return ConfigValues.LOADING_SCREEN_FRAME_RATE.getFrameLimit();
 
             return null;
@@ -86,8 +86,8 @@ public class SleepBackground implements ClientModInitializer {
     }
 
     private static boolean isHoveredWindow() {
-        Window window = ((AccessorMinecraftClient) MinecraftClient.getInstance()).getWindowForAccess();
-        return GLFW.glfwGetWindowAttrib(window.getHandle(), 131083) != 0;
+        class_4117 window = ((AccessorMinecraftClient) MinecraftClient.getInstance()).getWindowForAccess();
+        return GLFW.glfwGetWindowAttrib(window.method_18315(), 131083) != 0;
     }
 
     public static void checkRenderWorldPreview() {

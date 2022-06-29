@@ -2,6 +2,8 @@ package com.redlimerl.sleepbackground.mixin;
 
 import com.redlimerl.sleepbackground.SleepBackground;
 import com.redlimerl.sleepbackground.config.ConfigValues;
+import net.minecraft.class_4112;
+import net.minecraft.class_4218;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import org.jetbrains.annotations.Nullable;
@@ -9,12 +11,18 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
 
     @Shadow @Nullable public ClientWorld world;
+
+    @Inject(method = "method_18228", at = @At("HEAD"))
+    public void onRender(boolean bl, CallbackInfo ci) {
+        SleepBackground.LATEST_LOCK_FRAME = !SleepBackground.shouldRenderInBackground();
+    }
 
     @Inject(method = "tick", at = @At("RETURN"))
     public void onTick(CallbackInfo ci) {
