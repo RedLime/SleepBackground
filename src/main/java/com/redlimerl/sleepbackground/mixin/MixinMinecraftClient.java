@@ -5,6 +5,7 @@ import com.redlimerl.sleepbackground.config.ConfigValues;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,7 +24,10 @@ public abstract class MixinMinecraftClient {
 
     @Inject(method = "updateDisplay", at = @At("HEAD"), cancellable = true)
     public void onUpdate(CallbackInfo ci) {
-        if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
+        if (SleepBackground.LATEST_LOCK_FRAME) {
+            ci.cancel();
+            Display.processMessages();
+        }
     }
 
     @Inject(method = "tick", at = @At("RETURN"))
