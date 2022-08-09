@@ -25,6 +25,7 @@ public class SleepBackground implements ClientModInitializer {
     private static boolean CHECK_FREEZE_PREVIEW = false;
     private static boolean LOCK_FREEZE_PREVIEW = false;
     public static boolean LATEST_LOCK_FRAME = false;
+    public static boolean LOCK_FILE_EXIST = false;
     private static int LOADING_SCREEN_RENDER_COUNT = 0;
 
     @Override
@@ -71,8 +72,15 @@ public class SleepBackground implements ClientModInitializer {
         if (!client.isWindowFocused() && !isHoveredWindow()) {
 
             if (client.world != null) {
-                if (ConfigValues.WORLD_INITIAL_FRAME_RATE.getMaxTicks() > CLIENT_WORLD_TICK_COUNT)
-                    return ConfigValues.WORLD_INITIAL_FRAME_RATE.getFrameLimit();
+                if (SleepBackground.LOCK_FILE_EXIST) {
+                    Integer value = ConfigValues.NONE_PLAYING_FRAME_RATE.getFrameLimit();
+                    if (value != null) return value;
+                }
+
+                if (ConfigValues.WORLD_INITIAL_FRAME_RATE.getMaxTicks() > CLIENT_WORLD_TICK_COUNT) {
+                    Integer value = ConfigValues.WORLD_INITIAL_FRAME_RATE.getFrameLimit();
+                    if (value != null) return value;
+                }
 
                 return ConfigValues.BACKGROUND_FRAME_RATE.getFrameLimit();
             }
