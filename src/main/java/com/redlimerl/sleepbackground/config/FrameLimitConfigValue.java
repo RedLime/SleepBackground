@@ -13,7 +13,7 @@ public class FrameLimitConfigValue extends ConfigValue {
     }
 
     @Override
-    protected void loadToInit(JsonObject configObject) {
+    public void loadToInit(JsonObject configObject) {
         if (configObject.has("fps_limit")) {
             this.frameLimit = configObject.get("fps_limit").getAsInt();
             if (this.frameLimit < 1) throw new IllegalArgumentException("The FPS limit should always be 1 or over");
@@ -21,7 +21,7 @@ public class FrameLimitConfigValue extends ConfigValue {
     }
 
     @Override
-    protected void writeToJson(JsonObject configObject) {
+    public void writeToJson(JsonObject configObject) {
         configObject.addProperty("fps_limit", this.frameLimit);
     }
 
