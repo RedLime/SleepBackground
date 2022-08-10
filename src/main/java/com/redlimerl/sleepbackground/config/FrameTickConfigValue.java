@@ -12,7 +12,7 @@ public class FrameTickConfigValue extends FrameLimitConfigValue {
     }
 
     @Override
-    protected void loadToInit(JsonObject configObject) {
+    public void loadToInit(JsonObject configObject) {
         super.loadToInit(configObject);
         if (configObject.has("max_ticks")) {
             this.maxTicks = configObject.get("max_ticks").getAsInt();
@@ -20,7 +20,7 @@ public class FrameTickConfigValue extends FrameLimitConfigValue {
     }
 
     @Override
-    protected void writeToJson(JsonObject configObject) {
+    public void writeToJson(JsonObject configObject) {
         super.writeToJson(configObject);
         configObject.addProperty("max_ticks", this.maxTicks);
     }

@@ -12,16 +12,13 @@ public class ConfigValues {
     public static final FrameLimitConfigValue BACKGROUND_FRAME_RATE =
             new FrameLimitConfigValue("background", 1, "It works when instance is in the background after joined the world.");
 
-    public static final FrameLimitConfigValue NONE_PLAYING_FRAME_RATE =
-            new FrameLimitConfigValue("lock_instance", 1, "It works when instance is in the background with sleepbg.lock file is exist in user directory (for macros option)");
-
-    public static final TickIntervalConfigValue NONE_PLAYING_TICK_INTERVAL =
-            new TickIntervalConfigValue("lock_instance_tick", 1, "It checks does sleepbg.lock file exists at every X ticks.");
+    public static final FrameLockConfigValue NONE_PLAYING_FRAME_RATE =
+            new FrameLockConfigValue("lock_instance", 1, 20, "It works when instance is in the background with sleepbg.lock file is exist in user directory at every interval ticks. (for macros option)");
 
     public static final FrameLimitConfigValue LOADING_SCREEN_FRAME_RATE =
             new FrameLimitConfigValue("loading_screen", 30, "It works when instance is in the world loading screen. minimum (fps_limit) is 15.") {
                 @Override
-                protected void loadToInit(JsonObject configObject) {
+                public void loadToInit(JsonObject configObject) {
                     super.loadToInit(configObject);
                     Integer fps = this.getFrameLimit();
                     if (fps != null && fps < 15) {
@@ -43,6 +40,5 @@ public class ConfigValues {
         ALL_CONFIGS.add(WORLD_PREVIEW_RENDER_TIMES);
         ALL_CONFIGS.add(WORLD_INITIAL_FRAME_RATE);
         ALL_CONFIGS.add(NONE_PLAYING_FRAME_RATE);
-        ALL_CONFIGS.add(NONE_PLAYING_TICK_INTERVAL);
     }
 }
