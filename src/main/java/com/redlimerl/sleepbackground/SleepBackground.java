@@ -83,8 +83,13 @@ public class SleepBackground implements ClientModInitializer {
                 return ConfigValues.BACKGROUND_FRAME_RATE.getFrameLimit();
             }
 
-            else if (client.currentScreen instanceof ProgressScreen)
+            else if (client.currentScreen instanceof ProgressScreen) {
+                if (SleepBackground.LOCK_FILE_EXIST) {
+                    Integer value = ConfigValues.NONE_PLAYING_FRAME_RATE.getFrameLimit();
+                    if (value != null) return value;
+                }
                 return ConfigValues.LOADING_SCREEN_FRAME_RATE.getFrameLimit();
+            }
 
             return null;
         }
