@@ -31,7 +31,7 @@ public abstract class MixinMinecraftClient {
         SleepBackground.CLIENT_WORLD_TICK_COUNT = this.world == null ? 0 :
                 Math.min(SleepBackground.CLIENT_WORLD_TICK_COUNT + 1, ConfigValues.WORLD_INITIAL_FRAME_RATE.getMaxTicks());
 
-        if (++lockCheck >= ConfigValues.NONE_PLAYING_TICK_INTERVAL.getTickInterval()) {
+        if (++lockCheck >= ConfigValues.NONE_PLAYING_FRAME_RATE.getTickInterval()) {
             SleepBackground.LOCK_FILE_EXIST = new File(FileUtils.getUserDirectory(), "sleepbg.lock").exists();
             lockCheck = 0;
         }
