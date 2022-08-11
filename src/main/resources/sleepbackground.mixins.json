@@ -10,6 +10,8 @@
     "MixinFramebuffer",
     "MixinGameRenderer",
     "MixinMinecraftClient",
-    "MixinSnooper"
+    "MixinRenderSystem",
+    "MixinSnooper",
+    "MixinToastManager"
   ]
 }

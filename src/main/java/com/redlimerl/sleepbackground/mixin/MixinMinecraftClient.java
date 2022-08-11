@@ -46,4 +46,9 @@ public abstract class MixinMinecraftClient {
         }
     }
 
+
+    @Inject(method = "method_2926", at = @At("HEAD"), cancellable = true)
+    public void onDraw(CallbackInfo ci) {
+        if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
+    }
 }

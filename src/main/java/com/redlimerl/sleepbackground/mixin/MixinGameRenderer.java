@@ -17,4 +17,9 @@ public class MixinGameRenderer {
         }
         SleepBackground.checkRenderWorldPreview();
     }
+
+    @Inject(method = "renderStreamIndicator", at = @At("HEAD"), cancellable = true)
+    public void onRenderStream(CallbackInfo ci) {
+        if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
+    }
 }
