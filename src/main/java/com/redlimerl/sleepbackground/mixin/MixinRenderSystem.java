@@ -1,6 +1,6 @@
 package com.redlimerl.sleepbackground.mixin;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.redlimerl.sleepbackground.SleepBackground;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Pseudo
-@Mixin(RenderSystem.class)
+@Mixin(GlStateManager.class)
 public class MixinRenderSystem {
 
     @Inject(method = "clear", at = @At("HEAD"), cancellable = true)
