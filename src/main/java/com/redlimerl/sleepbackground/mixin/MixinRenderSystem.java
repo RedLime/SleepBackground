@@ -1,7 +1,7 @@
 package com.redlimerl.sleepbackground.mixin;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.redlimerl.sleepbackground.SleepBackground;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
@@ -9,30 +9,30 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Pseudo
-@Mixin(GlStateManager.class)
+@Mixin(GL11.class)
 public class MixinRenderSystem {
 
-    @Inject(method = "clear", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "glClear", at = @At("HEAD"), cancellable = true)
     private static void onClear(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
 
-    @Inject(method = "pushMatrix", at = @At("HEAD"), cancellable = true, expect = 0, require = 0)
+    @Inject(method = "glPushMatrix", at = @At("HEAD"), cancellable = true, expect = 0, require = 0)
     private static void onPush(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
 
-    @Inject(method = "popMatrix", at = @At("HEAD"), cancellable = true, expect = 0, require = 0)
+    @Inject(method = "glPopMatrix", at = @At("HEAD"), cancellable = true, expect = 0, require = 0)
     private static void onPop(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
 
-    @Inject(method = "enableCull", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "glEnable", at = @At("HEAD"), cancellable = true)
     private static void onCull(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
 
-    @Inject(method = "enableTexture", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "glFlush", at = @At("HEAD"), cancellable = true)
     private static void onTexture(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
