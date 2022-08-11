@@ -13,7 +13,7 @@ public class ConfigValues {
             new FrameLimitConfigValue("background", 1, "It works when instance is in the background after joined the world.");
 
     public static final FrameLockConfigValue NONE_PLAYING_FRAME_RATE =
-            new FrameLockConfigValue("lock_instance", 1, 20, "It works when instance is in the background with sleepbg.lock file is exist in user directory at every interval ticks. (for macros option)");
+            new FrameLockConfigValue("lock_instance", 1, 20, true, 10, "It works when instance is in the background with sleepbg.lock file is exist in user directory at every interval ticks. (for macros option)");
 
     public static final FrameLimitConfigValue LOADING_SCREEN_FRAME_RATE =
             new FrameLimitConfigValue("loading_screen", 30, "It works when instance is in the world loading screen. minimum (fps_limit) is 15.") {
