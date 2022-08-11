@@ -10,8 +10,10 @@
     "MixinFramebuffer",
     "MixinGameRenderer",
     "MixinMinecraftClient",
+    "MixinRenderSystem",
     "MixinSnooper",
     "MixinThreadExecutor",
+    "MixinToastManager",
     "MixinWindow",
     "accessor.AccessorMinecraftClient"
   ]
