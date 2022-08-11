@@ -9,6 +9,7 @@
   "client": [
     "MixinFramebuffer",
     "MixinGameRenderer",
-    "MixinMinecraftClient"
+    "MixinMinecraftClient",
+    "MixinSnooper"
   ]
 }

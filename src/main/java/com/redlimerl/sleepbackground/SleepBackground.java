@@ -84,10 +84,6 @@ public class SleepBackground implements ClientModInitializer {
             }
 
             else if (client.currentScreen instanceof ProgressScreen) {
-                if (SleepBackground.LOCK_FILE_EXIST) {
-                    Integer value = ConfigValues.NONE_PLAYING_FRAME_RATE.getFrameLimit();
-                    if (value != null) return value;
-                }
                 return ConfigValues.LOADING_SCREEN_FRAME_RATE.getFrameLimit();
             }
 
@@ -104,8 +100,9 @@ public class SleepBackground implements ClientModInitializer {
         if (!HAS_WORLD_PREVIEW || !WorldPreview.inPreview) return;
 
         boolean windowFocused = Display.isActive(), windowHovered = isHoveredWindow();
+        int renderTimes = SleepBackground.LOCK_FILE_EXIST ? ConfigValues.NONE_PLAYING_FRAME_RATE.getRenderTimes() : ConfigValues.WORLD_PREVIEW_RENDER_TIMES.getRenderTimes();
         if (windowFocused || windowHovered
-                || ++LOADING_SCREEN_RENDER_COUNT >= ConfigValues.WORLD_PREVIEW_RENDER_TIMES.getRenderTimes()) {
+                || ++LOADING_SCREEN_RENDER_COUNT >= renderTimes) {
             LOADING_SCREEN_RENDER_COUNT = 0;
             if (windowFocused || windowHovered) {
                 if (CHECK_FREEZE_PREVIEW) {
