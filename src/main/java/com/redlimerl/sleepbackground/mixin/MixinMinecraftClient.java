@@ -2,8 +2,6 @@ package com.redlimerl.sleepbackground.mixin;
 
 import com.redlimerl.sleepbackground.SleepBackground;
 import com.redlimerl.sleepbackground.config.ConfigValues;
-import net.minecraft.class_4112;
-import net.minecraft.class_4218;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import org.apache.commons.io.FileUtils;
@@ -12,7 +10,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.File;
@@ -40,4 +37,9 @@ public abstract class MixinMinecraftClient {
         }
     }
 
+
+    @Inject(method = "method_18224", at = @At("HEAD"), cancellable = true)
+    public void onDraw(CallbackInfo ci) {
+        if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
+    }
 }

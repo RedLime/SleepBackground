@@ -7,10 +7,13 @@
     "defaultRequire": 1
   },
   "client": [
+    "MixinClass_4218",
     "MixinFramebuffer",
     "MixinGameRenderer",
     "MixinMinecraftClient",
+    "MixinRenderSystem",
     "MixinSnooper",
+    "MixinToastManager",
     "MixinWindow",
     "accessor.AccessorMinecraftClient"
   ]
