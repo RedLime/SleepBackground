@@ -103,9 +103,9 @@ public class SleepBackground implements ClientModInitializer {
 
     private static long checkTickRate = 0;
     public static void checkRenderWorldPreview() {
-        long currentTime = System.currentTimeMillis();
         if (!HAS_WORLD_PREVIEW || !WorldPreview.inPreview) return;
 
+        long currentTime = System.currentTimeMillis();
         if (currentTime > checkTickRate + 50) {
             checkTickRate = currentTime;
             checkLock();
