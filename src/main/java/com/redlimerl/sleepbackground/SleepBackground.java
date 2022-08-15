@@ -134,6 +134,5 @@ public class SleepBackground implements ClientModInitializer {
             SleepBackground.LOCK_FILE_EXIST = new File(FileUtils.getUserDirectory(), "sleepbg.lock").exists();
             lockTick = 0;
         }
-        System.out.println("test");
     }
 }
