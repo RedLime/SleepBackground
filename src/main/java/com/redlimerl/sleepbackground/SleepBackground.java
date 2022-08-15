@@ -6,12 +6,14 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ProgressScreen;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import java.io.File;
 import java.util.concurrent.locks.LockSupport;
 
 public class SleepBackground implements ClientModInitializer {
@@ -96,9 +98,15 @@ public class SleepBackground implements ClientModInitializer {
         return Mouse.isInsideWindow();
     }
 
+    private static long checkTickRate = 0;
     public static void checkRenderWorldPreview() {
         if (!HAS_WORLD_PREVIEW || !WorldPreview.inPreview) return;
 
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > checkTickRate + 50) {
+            checkTickRate = currentTime;
+            checkLock();
+        }
         boolean windowFocused = Display.isActive(), windowHovered = isHoveredWindow();
         int renderTimes = SleepBackground.LOCK_FILE_EXIST ? ConfigValues.NONE_PLAYING_FRAME_RATE.getRenderTimes() : ConfigValues.WORLD_PREVIEW_RENDER_TIMES.getRenderTimes();
         if (windowFocused || windowHovered
@@ -114,6 +122,14 @@ public class SleepBackground implements ClientModInitializer {
         } else {
             CHECK_FREEZE_PREVIEW = false;
             WorldPreview.freezePreview = true;
+        }
+    }
+
+    private static int lockTick = 0;
+    public static void checkLock() {
+        if (ConfigValues.NONE_PLAYING_FRAME_RATE.isEnable() && ++lockTick >= ConfigValues.NONE_PLAYING_FRAME_RATE.getTickInterval()) {
+            SleepBackground.LOCK_FILE_EXIST = new File(FileUtils.getUserDirectory(), "sleepbg.lock").exists();
+            lockTick = 0;
         }
     }
 }
