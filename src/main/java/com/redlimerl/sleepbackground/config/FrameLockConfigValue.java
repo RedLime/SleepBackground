@@ -19,8 +19,8 @@ public class FrameLockConfigValue extends FrameLimitConfigValue {
         return this.isEnable() ? tickInterval : 1;
     }
 
-    public int getRenderTimes() {
-        return this.isEnable() ? renderTimes : 1;
+    public Integer getRenderTimes() {
+        return enableWorldPreview ? renderTimes : null;
     }
 
     @Override

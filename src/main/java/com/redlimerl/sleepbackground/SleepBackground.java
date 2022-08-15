@@ -9,11 +9,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.LevelLoadingScreen;
 import net.minecraft.client.util.Window;
 import net.minecraft.util.Util;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
+import java.io.File;
 import java.util.concurrent.locks.LockSupport;
 
 public class SleepBackground implements ClientModInitializer {
@@ -99,9 +101,15 @@ public class SleepBackground implements ClientModInitializer {
         return GLFW.glfwGetWindowAttrib(window.getHandle(), 131083) != 0;
     }
 
+    private static long checkTickRate = 0;
     public static void checkRenderWorldPreview() {
+        long currentTime = System.currentTimeMillis();
         if (!HAS_WORLD_PREVIEW || !WorldPreview.inPreview) return;
 
+        if (currentTime > checkTickRate + 50) {
+            checkTickRate = currentTime;
+            checkLock();
+        }
         boolean windowFocused = MinecraftClient.getInstance().isWindowFocused(), windowHovered = isHoveredWindow();
         int renderTimes = SleepBackground.LOCK_FILE_EXIST ? ConfigValues.NONE_PLAYING_FRAME_RATE.getRenderTimes() : ConfigValues.WORLD_PREVIEW_RENDER_TIMES.getRenderTimes();
         if (windowFocused || windowHovered
@@ -118,5 +126,14 @@ public class SleepBackground implements ClientModInitializer {
             CHECK_FREEZE_PREVIEW = false;
             WorldPreview.freezePreview = true;
         }
+    }
+
+    private static int lockTick = 0;
+    public static void checkLock() {
+        if (ConfigValues.NONE_PLAYING_FRAME_RATE.isEnable() && ++lockTick >= ConfigValues.NONE_PLAYING_FRAME_RATE.getTickInterval()) {
+            SleepBackground.LOCK_FILE_EXIST = new File(FileUtils.getUserDirectory(), "sleepbg.lock").exists();
+            lockTick = 0;
+        }
+        System.out.println("test");
     }
 }
