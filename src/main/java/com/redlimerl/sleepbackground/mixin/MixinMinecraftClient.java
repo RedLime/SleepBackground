@@ -30,7 +30,7 @@ public abstract class MixinMinecraftClient {
     }
 
 
-    @Inject(method = "drawProfilerResults", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "drawProfilerResults", at = @At("HEAD"), cancellable = true, expect = 0, require = 0)
     public void onDraw(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
