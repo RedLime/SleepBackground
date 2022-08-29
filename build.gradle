@@ -48,7 +48,7 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
-    project.version = project.version + "-1.15.x-1.19.x";
+    project.version = project.version + "-1.16.x-1.19.x";
 }
 
 // configure the maven publication
