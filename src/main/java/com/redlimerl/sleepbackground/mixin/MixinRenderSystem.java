@@ -17,21 +17,6 @@ public class MixinRenderSystem {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
 
-    @Inject(method = "pushMatrix", at = @At("HEAD"), cancellable = true, expect = 0, require = 0)
-    private static void onPush(CallbackInfo ci) {
-        if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
-    }
-
-    @Inject(method = "popMatrix", at = @At("HEAD"), cancellable = true, expect = 0, require = 0)
-    private static void onPop(CallbackInfo ci) {
-        if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
-    }
-
-    @Inject(method = "translatef", at = @At("HEAD"), cancellable = true, expect = 0, require = 0)
-    private static void onTranslate(CallbackInfo ci) {
-        if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
-    }
-
     @Inject(method = "enableCull", at = @At("HEAD"), cancellable = true)
     private static void onCull(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
