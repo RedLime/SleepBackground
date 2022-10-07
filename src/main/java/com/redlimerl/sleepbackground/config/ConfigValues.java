@@ -33,6 +33,7 @@ public class ConfigValues {
     public static final FrameTickConfigValue WORLD_INITIAL_FRAME_RATE =
             new FrameTickConfigValue("world_setup", 10, 30, "same with (background) config but for (max_ticks) ticks after the joined the world.");
 
+    public static final PollingRateConfigValue POLLING_RATE_LIMIT = new PollingRateConfigValue("polling_rate_limit", "Limits input detection when the instance is in the background. When enabled, it will be make problem if you are using macros.");
 
     static {
         ALL_CONFIGS.add(BACKGROUND_FRAME_RATE);
@@ -40,5 +41,6 @@ public class ConfigValues {
         ALL_CONFIGS.add(WORLD_PREVIEW_RENDER_TIMES);
         ALL_CONFIGS.add(WORLD_INITIAL_FRAME_RATE);
         ALL_CONFIGS.add(NONE_PLAYING_FRAME_RATE);
+        ALL_CONFIGS.add(POLLING_RATE_LIMIT);
     }
 }
