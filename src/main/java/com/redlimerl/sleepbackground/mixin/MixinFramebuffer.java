@@ -1,6 +1,7 @@
 package com.redlimerl.sleepbackground.mixin;
 
 import com.redlimerl.sleepbackground.SleepBackground;
+import com.redlimerl.sleepbackground.config.ConfigValues;
 import net.minecraft.client.gl.Framebuffer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,21 +13,21 @@ public class MixinFramebuffer {
 
     @Inject(method = "bind", at = @At("HEAD"), cancellable = true)
     private void onBegin(CallbackInfo ci) {
-        if (SleepBackground.LATEST_LOCK_FRAME) {
+        if (SleepBackground.LATEST_LOCK_FRAME && ConfigValues.POLLING_RATE_LIMIT.isEnable()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "endWrite", at = @At("HEAD"), cancellable = true)
     private void onEnd(CallbackInfo ci) {
-        if (SleepBackground.LATEST_LOCK_FRAME) {
+        if (SleepBackground.LATEST_LOCK_FRAME && ConfigValues.POLLING_RATE_LIMIT.isEnable()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "draw(II)V", at = @At("HEAD"), cancellable = true)
     private void onDraw(CallbackInfo ci) {
-        if (SleepBackground.LATEST_LOCK_FRAME) {
+        if (SleepBackground.LATEST_LOCK_FRAME && ConfigValues.POLLING_RATE_LIMIT.isEnable()) {
             ci.cancel();
         }
     }
