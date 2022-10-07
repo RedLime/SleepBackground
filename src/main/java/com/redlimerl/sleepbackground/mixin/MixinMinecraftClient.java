@@ -24,7 +24,7 @@ public abstract class MixinMinecraftClient {
 
     @Inject(method = "method_6648", at = @At("HEAD"), cancellable = true)
     public void onUpdate(CallbackInfo ci) {
-        if (SleepBackground.LATEST_LOCK_FRAME) {
+        if (SleepBackground.LATEST_LOCK_FRAME && ConfigValues.POLLING_RATE_LIMIT.isEnable()) {
             ci.cancel();
             Display.processMessages();
         }
