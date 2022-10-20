@@ -14,7 +14,7 @@ public class MixinThreadExecutor {
      * @reason wait for tasks
      */
     @Overwrite
-    public void waitForTasks() {
+    protected void waitForTasks() {
         LockSupport.parkNanos("waiting for tasks", 500000L);
     }
 
