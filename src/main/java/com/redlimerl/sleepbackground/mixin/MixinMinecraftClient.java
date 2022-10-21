@@ -12,17 +12,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
-public abstract class MixinMinecraftClient {
+public class MixinMinecraftClient {
 
     @Shadow @Nullable public ClientWorld world;
 
     @Inject(method = "render", at = @At("HEAD"))
-    public void onRender(CallbackInfo ci) {
+    private void onRender(CallbackInfo ci) {
         SleepBackground.LATEST_LOCK_FRAME = !SleepBackground.shouldRenderInBackground();
     }
 
     @Inject(method = "tick", at = @At("RETURN"))
-    public void onTick(CallbackInfo ci) {
+    private void onTick(CallbackInfo ci) {
         SleepBackground.CLIENT_WORLD_TICK_COUNT = this.world == null ? 0 :
                 Math.min(SleepBackground.CLIENT_WORLD_TICK_COUNT + 1, ConfigValues.WORLD_INITIAL_FRAME_RATE.getMaxTicks());
 
@@ -31,7 +31,7 @@ public abstract class MixinMinecraftClient {
 
 
     @Inject(method = "drawProfilerResults", at = @At("HEAD"), cancellable = true, expect = 0, require = 0)
-    public void onDraw(CallbackInfo ci) {
+    private void onDraw(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
 }
