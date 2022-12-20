@@ -1,7 +1,6 @@
 package com.redlimerl.sleepbackground;
 
 import com.redlimerl.sleepbackground.config.ConfigValues;
-import com.redlimerl.sleepbackground.mixin.accessor.AccessorMinecraftClient;
 import me.voidxwalker.worldpreview.WorldPreview;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -97,7 +96,7 @@ public class SleepBackground implements ClientModInitializer {
     }
 
     private static boolean isHoveredWindow() {
-        class_4117 window = ((AccessorMinecraftClient) MinecraftClient.getInstance()).getWindowForAccess();
+        class_4117 window = MinecraftClient.getInstance().field_19944;
         return GLFW.glfwGetWindowAttrib(window.method_18315(), 131083) != 0;
     }
 

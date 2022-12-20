@@ -13,7 +13,6 @@
     "MixinRenderSystem",
     "MixinSnooper",
     "MixinToastManager",
-    "MixinWindow",
-    "accessor.AccessorMinecraftClient"
+    "MixinWindow"
   ]
 }
