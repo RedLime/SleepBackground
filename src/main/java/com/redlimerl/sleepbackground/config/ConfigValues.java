@@ -33,6 +33,9 @@ public class ConfigValues {
     public static final FrameTickConfigValue WORLD_INITIAL_FRAME_RATE =
             new FrameTickConfigValue("world_setup", 10, 30, "same with (background) config but for (max_ticks) ticks after the joined the world.");
 
+    public static final LogIntervalConfigValue LOG_INTERVAL =
+            new LogIntervalConfigValue(500, "Changes how often the game prints the worldgen progress to the log file, may be useful for macros (minimum: 50ms, max/default: 500ms)");
+
 
     static {
         ALL_CONFIGS.add(BACKGROUND_FRAME_RATE);
@@ -40,5 +43,6 @@ public class ConfigValues {
         ALL_CONFIGS.add(WORLD_PREVIEW_RENDER_TIMES);
         ALL_CONFIGS.add(WORLD_INITIAL_FRAME_RATE);
         ALL_CONFIGS.add(NONE_PLAYING_FRAME_RATE);
+        ALL_CONFIGS.add(LOG_INTERVAL);
     }
 }
