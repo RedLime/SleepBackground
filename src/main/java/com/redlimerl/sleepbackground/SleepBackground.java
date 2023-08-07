@@ -1,9 +1,7 @@
 package com.redlimerl.sleepbackground;
 
 import com.redlimerl.sleepbackground.config.ConfigValues;
-import me.voidxwalker.worldpreview.WorldPreview;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ProgressScreen;
 import org.apache.commons.io.FileUtils;
@@ -21,20 +19,12 @@ public class SleepBackground implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static int CLIENT_WORLD_TICK_COUNT = 0;
-    private static boolean HAS_WORLD_PREVIEW = false;
-    private static boolean CHECK_FREEZE_PREVIEW = false;
-    private static boolean LOCK_FREEZE_PREVIEW = false;
     public static boolean LATEST_LOCK_FRAME = false;
     public static boolean LOCK_FILE_EXIST = false;
-    private static int LOADING_SCREEN_RENDER_COUNT = 0;
 
     @Override
     public void onInitializeClient() {
         SleepBackgroundConfig.init();
-
-        if (FabricLoader.getInstance().getModContainer("worldpreview").isPresent()) {
-            HAS_WORLD_PREVIEW = true;
-        }
     }
 
     private static long lastRenderTime = 0;
@@ -96,33 +86,6 @@ public class SleepBackground implements ClientModInitializer {
 
     private static boolean isHoveredWindow() {
         return Mouse.isInsideWindow();
-    }
-
-    private static long checkTickRate = 0;
-    public static void checkRenderWorldPreview() {
-        if (!HAS_WORLD_PREVIEW || !WorldPreview.inPreview) return;
-
-        long currentTime = System.currentTimeMillis();
-        if (currentTime > checkTickRate + 50) {
-            checkTickRate = currentTime;
-            checkLock();
-        }
-        boolean windowFocused = Display.isActive(), windowHovered = isHoveredWindow();
-        int renderTimes = SleepBackground.LOCK_FILE_EXIST ? ConfigValues.NONE_PLAYING_FRAME_RATE.getRenderTimes() : ConfigValues.WORLD_PREVIEW_RENDER_TIMES.getRenderTimes();
-        if (windowFocused || windowHovered
-                || ++LOADING_SCREEN_RENDER_COUNT >= renderTimes) {
-            LOADING_SCREEN_RENDER_COUNT = 0;
-            if (windowFocused || windowHovered) {
-                if (CHECK_FREEZE_PREVIEW) {
-                    LOCK_FREEZE_PREVIEW = WorldPreview.freezePreview;
-                }
-                CHECK_FREEZE_PREVIEW = true;
-            }
-            WorldPreview.freezePreview = LOCK_FREEZE_PREVIEW;
-        } else {
-            CHECK_FREEZE_PREVIEW = false;
-            WorldPreview.freezePreview = true;
-        }
     }
 
     private static int lockTick = 0;
