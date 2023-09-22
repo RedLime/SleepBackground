@@ -37,6 +37,10 @@ public class ConfigValues {
             new LogIntervalConfigValue(500, "Changes how often the game prints the worldgen progress to the log file, may be useful for macros (minimum: 50ms, max/default: 500ms)");
 
 
+    public static final LoadingTickConfigValue LOADING_TICK_INTERVAL =
+            new LoadingTickConfigValue(1, "Changes how often the game ticks on the loading screen/preview, decreasing this number will reduce reset input latency (minimum/default: 1ms, max (vanilla): 16ms)");
+
+
     static {
         ALL_CONFIGS.add(BACKGROUND_FRAME_RATE);
         ALL_CONFIGS.add(LOADING_SCREEN_FRAME_RATE);
@@ -44,5 +48,6 @@ public class ConfigValues {
         ALL_CONFIGS.add(WORLD_INITIAL_FRAME_RATE);
         ALL_CONFIGS.add(NONE_PLAYING_FRAME_RATE);
         ALL_CONFIGS.add(LOG_INTERVAL);
+        ALL_CONFIGS.add(LOADING_TICK_INTERVAL);
     }
 }
