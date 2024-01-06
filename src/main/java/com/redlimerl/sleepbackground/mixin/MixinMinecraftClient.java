@@ -36,7 +36,7 @@ public class MixinMinecraftClient {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
 
-    @ModifyArg(method = "startIntegratedServer(Ljava/lang/String;Lnet/minecraft/util/registry/RegistryTracker$Modifiable;Ljava/util/function/Function;Lcom/mojang/datafixers/util/Function4;ZLnet/minecraft/client/MinecraftClient$WorldLoadAction;)V", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;sleep(J)V"))
+    @ModifyArg(method = "startIntegratedServer", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;sleep(J)V"))
     public long onSleep(long l){
         return ConfigValues.LOADING_TICK_INTERVAL.getTickInterval();
     }
