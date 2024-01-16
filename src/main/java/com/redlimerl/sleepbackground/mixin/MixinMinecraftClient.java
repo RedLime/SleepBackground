@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
@@ -33,5 +34,10 @@ public class MixinMinecraftClient {
     @Inject(method = "drawProfilerResults", at = @At("HEAD"), cancellable = true, expect = 0, require = 0)
     private void onDraw(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
+    }
+
+    @ModifyArg(method = "startIntegratedServer", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;sleep(J)V"))
+    public long onSleep(long l){
+        return ConfigValues.LOADING_TICK_INTERVAL.getTickInterval();
     }
 }
