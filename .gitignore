@@ -1,8 +1,6 @@
 # User-specific stuff
 .idea/
 
-libs/
-
 *.iml
 *.ipr
 *.iws
@@ -25,7 +23,6 @@ atlassian-ide-plugin.xml
 *.ctxt
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear

@@ -15,7 +15,7 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    compileOnlyApi files('libs/worldpreview-2.3.2+1.16.1.jar')
+    compileOnlyApi files('libs/worldpreview-4.0.1+1.15.2.jar')
 
 }
 
