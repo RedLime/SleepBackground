@@ -36,7 +36,14 @@ public class MixinMinecraftClient {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
 
-    @ModifyArg(method = "startIntegratedServer(Ljava/lang/String;Lnet/minecraft/util/registry/RegistryTracker$Modifiable;Ljava/util/function/Function;Lcom/mojang/datafixers/util/Function4;ZLnet/minecraft/client/MinecraftClient$WorldLoadAction;)V", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;sleep(J)V"))
+    @ModifyArg(
+            method = {
+                    /* 1.16-1.16.1 */ "startIntegratedServer(Ljava/lang/String;Lnet/minecraft/util/registry/RegistryTracker$Modifiable;Ljava/util/function/Function;Lcom/mojang/datafixers/util/Function4;ZLnet/minecraft/client/MinecraftClient$WorldLoadAction;)V",
+                    /* class_5455/class_5457: DynamicRegistryManager$Impl, */
+                    /* 1.16.2-1.18.1 */ "Lnet/minecraft/client/MinecraftClient;startIntegratedServer(Ljava/lang/String;Lnet/minecraft/class_5455/class_5457;Ljava/util/function/Function;Lcom/mojang/datafixers/util/Function4;ZLnet/minecraft/client/MinecraftClient$WorldLoadAction;)V"
+            },
+            at = @At(value = "INVOKE", target = "Ljava/lang/Thread;sleep(J)V"), require = 0
+    )
     public long onSleep(long l){
         return ConfigValues.LOADING_TICK_INTERVAL.getTickInterval();
     }
