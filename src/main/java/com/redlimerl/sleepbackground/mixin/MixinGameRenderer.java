@@ -1,7 +1,7 @@
 package com.redlimerl.sleepbackground.mixin;
 
 import com.redlimerl.sleepbackground.SleepBackground;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
