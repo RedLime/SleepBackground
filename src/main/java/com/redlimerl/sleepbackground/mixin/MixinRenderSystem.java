@@ -17,7 +17,7 @@ public class MixinRenderSystem {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
 
-    @Inject(method = "setShaderFogStart", at = @At("HEAD"), cancellable = true, expect = 0, require = 0, remap = false)
+    @Inject(method = "setShaderFog", at = @At("HEAD"), cancellable = true, expect = 0, require = 0, remap = false)
     private static void onFogDensity(CallbackInfo ci) {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }

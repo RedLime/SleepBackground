@@ -18,7 +18,7 @@ public class MixinWorldGenerationProgressLogger {
     /**
      * @author DuncanRuns, jojoe77777
      */
-    @Inject(method = "setChunkStatus", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;)V", shift = At.Shift.BEFORE, remap = false))
+    @Inject(method = "setChunkStatus", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;)V", remap = false))
     public void injectMessageTime(ChunkPos pos, ChunkStatus status, CallbackInfo ci) {
         nextMessageTime -= (500 - ConfigValues.LOG_INTERVAL.getLogInterval());
     }

@@ -18,7 +18,7 @@
     "sleepbackground.mixins.json"
   ],
   "depends": {
-    "minecraft": ">=1.20"
+    "minecraft": ">=1.21.2"
   },
   "breaks": {
     "dynamicmenufps": "*"

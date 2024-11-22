@@ -9,6 +9,7 @@
   "client": [
     "MixinFramebuffer",
     "MixinGameRenderer",
+    "MixinInactivityFpsLimiter",
     "MixinMinecraftClient",
     "MixinRenderSystem",
     "MixinThreadExecutor",

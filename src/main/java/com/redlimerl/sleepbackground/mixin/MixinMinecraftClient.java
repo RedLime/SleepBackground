@@ -30,12 +30,6 @@ public class MixinMinecraftClient {
         SleepBackground.checkLock();
     }
 
-
-    @Inject(method = "drawProfilerResults", at = @At("HEAD"), cancellable = true, expect = 0, require = 0)
-    private void onDraw(CallbackInfo ci) {
-        if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
-    }
-
     @ModifyArg(method = "startIntegratedServer", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;sleep(J)V"))
     public long onSleep(long l){
         return ConfigValues.LOADING_TICK_INTERVAL.getTickInterval();
