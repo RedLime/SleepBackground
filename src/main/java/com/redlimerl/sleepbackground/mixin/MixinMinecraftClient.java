@@ -5,8 +5,7 @@ import com.redlimerl.sleepbackground.config.ConfigValues;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -36,7 +35,8 @@ public class MixinMinecraftClient {
         if (SleepBackground.LATEST_LOCK_FRAME) ci.cancel();
     }
 
-    @ModifyArg(method = "startIntegratedServer", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;sleep(J)V"))
+    @Dynamic
+    @ModifyArg(method = "method_29610", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;sleep(J)V"), remap = false)
     public long onSleep(long l){
         return ConfigValues.LOADING_TICK_INTERVAL.getTickInterval();
     }

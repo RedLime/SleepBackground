@@ -10,8 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
     @Dynamic
-    // class_9779 -> RenderTickCounter
-    @Inject(method = {"render", "Lnet/minecraft/class_757;method_3192(Lnet/minecraft/class_9779;Z)V"}, at = @At("HEAD"), require = 1, cancellable = true)
+    @Inject(method = "method_3192", at = @At("HEAD"), cancellable = true, remap = false)
     private void onRender(CallbackInfo callbackInfo) {
         if (SleepBackground.LATEST_LOCK_FRAME) {
             callbackInfo.cancel();
