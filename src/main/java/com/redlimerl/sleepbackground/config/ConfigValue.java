@@ -1,7 +1,7 @@
 package com.redlimerl.sleepbackground.config;
 
-import org.mcsr.speedrunapi.config.api.SpeedrunConfigStorage;
-import org.mcsr.speedrunapi.config.api.annotations.Config;
+import me.contaria.speedrunapi.config.api.SpeedrunConfigStorage;
+import me.contaria.speedrunapi.config.api.annotations.Config;
 
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
 public abstract class ConfigValue implements SpeedrunConfigStorage {

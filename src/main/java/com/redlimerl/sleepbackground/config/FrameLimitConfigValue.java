@@ -1,7 +1,7 @@
 package com.redlimerl.sleepbackground.config;
 
+import me.contaria.speedrunapi.config.api.annotations.Config;
 import org.jetbrains.annotations.Nullable;
-import org.mcsr.speedrunapi.config.api.annotations.Config;
 
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
 public class FrameLimitConfigValue extends ConfigValue {

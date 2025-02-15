@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.5-SNAPSHOT'
+    id 'fabric-loom' version '1.6-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -17,8 +17,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // SpeedrunAPI
-    // check for the latest versions at https://jitpack.io/#kingcontaria/speedrunapi
-    modImplementation "com.github.KingContaria:SpeedrunAPI:b25af3eafb"
+    // check for the latest versions at https://jitpack.io/#contariaa/speedrunapi
+    modImplementation "com.github.contariaa:SpeedrunAPI:96811e85e8"
 }
 
 processResources {

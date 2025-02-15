@@ -1,11 +1,10 @@
 package com.redlimerl.sleepbackground;
 
 import com.redlimerl.sleepbackground.config.*;
-import org.mcsr.speedrunapi.config.api.SpeedrunConfig;
-import org.mcsr.speedrunapi.config.api.annotations.Config;
-import org.mcsr.speedrunapi.config.api.annotations.InitializeOn;
+import me.contaria.speedrunapi.config.api.SpeedrunConfig;
+import me.contaria.speedrunapi.config.api.annotations.Config;
 
-@InitializeOn(InitializeOn.InitPoint.PRELAUNCH)
+@Config(init = Config.InitPoint.PRELAUNCH)
 public class SleepBackgroundConfig implements SpeedrunConfig {
 
     @Config.Category("backgroundFrameRate")
