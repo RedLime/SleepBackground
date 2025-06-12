@@ -24,7 +24,7 @@
   ],
   "depends": {
     "minecraft": "1.16.1",
-    "speedrunapi": "*"
+    "speedrunapi": ">=2.0"
   },
   "breaks": {
     "dynamicmenufps": "*"
