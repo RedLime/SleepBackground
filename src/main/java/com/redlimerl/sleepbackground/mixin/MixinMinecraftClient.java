@@ -21,13 +21,12 @@ public class MixinMinecraftClient {
         SleepBackground.tick();
     }
 
-
     @Inject(method = "drawProfilerResults", at = @At("HEAD"), cancellable = true, require = 0)
     private void cancelDrawProfilerResults(CallbackInfo ci) {
         if (SleepBackground.shouldNotRender) ci.cancel();
     }
 
-    @ModifyArg(method = "startIntegratedServer(Ljava/lang/String;Lnet/minecraft/util/registry/RegistryTracker$Modifiable;Ljava/util/function/Function;Lcom/mojang/datafixers/util/Function4;ZLnet/minecraft/client/MinecraftClient$WorldLoadAction;)V", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;sleep(J)V"))
+    @ModifyArg(method = "startIntegratedServer", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;sleep(J)V"))
     private long modifyLoadingScreenTickInterval(long delay) {
         Integer tickInterval = SleepBackground.config.LOADING_SCREEN_TICK_INTERVAL.getTickInterval();
         return tickInterval != null ? tickInterval : delay;
